@@ -1,0 +1,34 @@
+{
+  "name": "d3-ski-chart",
+  "version": "0.0.1",
+  "description": "D3 powered ski-slope dashboard chart",
+  "main": "d3-ski-chart.js",
+  "scripts": {
+    "build": "coffee build.coffee",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/HealthDataInsight/d3-ski-chart.git"
+  },
+  "keywords": [
+    "d3"
+  ],
+  "author": {
+    "name": "Health Data Insight",
+    "url": "http://healthdatainsight.co.uk/"
+  },
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/HealthDataInsight/d3-ski-chart/issues"
+  },
+  "homepage": "https://github.com/HealthDataInsight/d3-ski-chart#readme",
+  "dependencies": {
+    "d3": "^3.0.8"
+  },
+  "devDependencies": {
+    "browserify": "^12.0.1",
+    "coffeeify": "^1.2.0",
+    "uglifyify": "^3.0.1"
+  }
+}
