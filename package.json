@@ -1,6 +1,6 @@
 {
   "name": "d3-ski-chart",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "D3 powered ski-slope dashboard chart",
   "main": "d3-ski-chart.js",
   "scripts": {

@@ -1,6 +1,6 @@
 "use strict"
 
-d3 = require 'd3'
+# d3 = require 'd3'
 
 # Use a sample of the data where there is more than one data point per pixel.
 # Visually our target is approximately one data point every 4px.
@@ -14,7 +14,7 @@ sampleData = (data, height) ->
   # NOTE: (0 % sample_step) will always return the first value.
   (d for d, i in data when i % sample_step == 0 || i == last)
 
-skiChart = (geography_type, digestor) ->
+skiChart = (geography_type) ->
   skiChart._id = 0 unless skiChart._id
 
   _id = skiChart._id++
@@ -24,6 +24,8 @@ skiChart = (geography_type, digestor) ->
   _height = 85
   _suffix = ''
   _lines = []
+  _identifier = null
+  _css_class = null
 
   x_extent = null
   y_extent = null
@@ -47,6 +49,13 @@ skiChart = (geography_type, digestor) ->
 
   chart_height = () -> _height - _margins.top - _margins.bottom
   chart_width = () -> width - _margins.left - _margins.right
+
+  _css_prefix = geography_type.toLowerCase()
+
+  _geographyCssClasses = (d) ->
+    classes = ["geography", _colour(d)]
+    classes = classes.concat(_css_prefix + _css_class(d)) if _css_class(d)
+    classes.join(" ")
 
   renderHeading = (heading) ->
     heading
@@ -194,15 +203,11 @@ skiChart = (geography_type, digestor) ->
           .attr("fill", (d) -> d.colour)
 
         # Add a group for each CCG
-        css_prefix = geography_type.toLowerCase()
         enter = _svg.selectAll("g.geography").data(data)
           .enter()
             .append("g")
-              .attr("id", (d) ->
-                # a hashed version of the original identifier
-                digestor.consume(d.ccg_code)[0]
-              )
-              .attr("class", (d) -> "geography #{_colour(d)}")
+              .attr("id", _identifier)
+              .attr("class", _geographyCssClasses)
               .attr("transform", (d, i) -> "translate(0,#{y_scale(i)})")
 
         enter.append("rect")
@@ -295,6 +300,14 @@ skiChart = (geography_type, digestor) ->
     )
     _chart
 
+  _chart.identifier = (identifier) ->
+    _identifier = identifier
+    _chart
+
+  _chart.cssClass = (css_class) ->
+    _css_class = css_class
+    _chart
+
   # _chart.height = (value) ->
   #   return _height if (!arguments.length)
   #   _height = value
@@ -309,4 +322,4 @@ skiChart = (geography_type, digestor) ->
 
   _chart
 
-module.exports = skiChart
+(exports ? this).skiChart = skiChart
